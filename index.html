@@ -9,11 +9,11 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a160a;
+      --bg: #0f2410;
       --gold: #c9a84c;
       --gold-light: #e8c96a;
       --cream: #f5f0e8;
-      --cream-dim: rgba(245,240,232,0.45);
+      --cream-dim: rgba(245,240,232,0.5);
       --nav-h: 68px;
     }
 
@@ -23,14 +23,14 @@
     }
     body {
       background:
-        radial-gradient(ellipse at 15% 0%, rgba(74,124,74,0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at 85% 100%, rgba(61,107,61,0.2) 0%, transparent 50%),
-        linear-gradient(160deg, #1a2e1a 0%, #111c11 50%, #0a160a 100%);
+        radial-gradient(ellipse at 15% 0%, rgba(90,150,90,0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 100%, rgba(75,130,75,0.3) 0%, transparent 50%),
+        linear-gradient(160deg, #1e3d1e 0%, #172d17 50%, #0f2410 100%);
       min-height: 100vh;
     }
     body::before {
       content: ''; position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234a7c4a' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234a7c4a' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
       pointer-events: none; z-index: 0;
     }
 
@@ -737,49 +737,54 @@ function renderScores() {
             <div class="scores-input-group">
               <label class="scores-input-label">Gross</label>
               <input class="scores-cell-input" type="number" inputmode="numeric" placeholder="—"
-                value="${s.gross}" oninput="savePlayerScore('${p}',${i},'gross',this.value)" />
+                value="${s.gross}" onchange="savePlayerScore('${p}',${i},'gross',this.value)" />
             </div>
             <div class="scores-input-group">
               <label class="scores-input-label">Stbl</label>
               <input class="scores-cell-input" type="number" inputmode="numeric" placeholder="—"
-                value="${s.stableford}" oninput="savePlayerScore('${p}',${i},'stableford',this.value)" />
+                value="${s.stableford}" onchange="savePlayerScore('${p}',${i},'stableford',this.value)" />
             </div>
           </div>
         </div>`;
     }).join('');
 
-    // Totals
-    const grossVals  = scores.map(s => parseInt(s.gross)).filter(v => !isNaN(v));
-    const stblVals   = scores.map(s => parseInt(s.stableford)).filter(v => !isNaN(v));
-    const grossTotal = grossVals.length ? grossVals.reduce((a,b) => a+b, 0) : '—';
-    const stblTotal  = stblVals.length  ? stblVals.reduce((a,b)  => a+b, 0) : '—';
-
     return `
       <div class="scores-player-card">
         <div class="scores-player-header">${p}</div>
         ${rows}
-        <div class="scores-totals-row">
-          <div class="scores-round-label" style="color:var(--gold-light);">Total</div>
-          <div class="scores-inputs">
-            <div class="scores-input-group">
-              <label class="scores-input-label">Gross</label>
-              <div class="scores-total-val">${grossTotal}</div>
-            </div>
-            <div class="scores-input-group">
-              <label class="scores-input-label">Stbl</label>
-              <div class="scores-total-val">${stblTotal}</div>
-            </div>
-          </div>
+        <div class="scores-totals-row" id="scores-totals-${p}">
+          ${renderScoresTotalsContent(p)}
         </div>
       </div>`;
   }).join('');
 }
 
+function renderScoresTotalsContent(p) {
+  const scores = state.playerScores[p];
+  const grossVals = scores.map(s => parseInt(s.gross)).filter(v => !isNaN(v));
+  const stblVals  = scores.map(s => parseInt(s.stableford)).filter(v => !isNaN(v));
+  const grossTotal = grossVals.length ? grossVals.reduce((a,b) => a+b, 0) : '—';
+  const stblTotal  = stblVals.length  ? stblVals.reduce((a,b)  => a+b, 0) : '—';
+  return `
+    <div class="scores-round-label" style="color:var(--gold-light);flex:1;">Total</div>
+    <div class="scores-inputs">
+      <div class="scores-input-group">
+        <label class="scores-input-label">Gross</label>
+        <div class="scores-total-val">${grossTotal}</div>
+      </div>
+      <div class="scores-input-group">
+        <label class="scores-input-label">Stbl</label>
+        <div class="scores-total-val">${stblTotal}</div>
+      </div>
+    </div>`;
+}
+
 function savePlayerScore(player, roundIdx, type, val) {
   state.playerScores[player][roundIdx][type] = val;
   saveState();
-  // Re-render to update totals
-  renderScores();
+  // Only update the totals row — don't re-render the whole grid
+  const totalsEl = document.getElementById(`scores-totals-${player}`);
+  if (totalsEl) totalsEl.innerHTML = renderScoresTotalsContent(player);
 }
 
 // ── INIT ──
