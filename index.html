@@ -3,376 +3,791 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Golf Skins Tracker</title>
+  <title>Spain Golf Trip 2027</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green-dark: #1a2e1a;
-      --green-mid: #2d4f2d;
-      --green-light: #3d6b3d;
-      --fairway: #4a7c4a;
+      --bg: #0a160a;
       --gold: #c9a84c;
       --gold-light: #e8c96a;
       --cream: #f5f0e8;
-      --white: #ffffff;
-      --shadow: rgba(0,0,0,0.4);
+      --cream-dim: rgba(245,240,232,0.45);
+      --nav-h: 68px;
     }
 
     html, body {
-      height: 100%;
-      background: var(--green-dark);
-      font-family: 'DM Sans', sans-serif;
-      color: var(--cream);
-      overflow-x: hidden;
+      height: 100%; font-family: 'DM Sans', sans-serif;
+      color: var(--cream); background: var(--bg); overflow-x: hidden;
     }
-
     body {
       background:
-        radial-gradient(ellipse at 20% 0%, rgba(74,124,74,0.4) 0%, transparent 55%),
-        radial-gradient(ellipse at 80% 100%, rgba(61,107,61,0.3) 0%, transparent 50%),
-        linear-gradient(160deg, #1a2e1a 0%, #152615 60%, #0f1f0f 100%);
+        radial-gradient(ellipse at 15% 0%, rgba(74,124,74,0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 100%, rgba(61,107,61,0.2) 0%, transparent 50%),
+        linear-gradient(160deg, #1a2e1a 0%, #111c11 50%, #0a160a 100%);
       min-height: 100vh;
-      padding: 0 0 40px 0;
     }
-
-    /* Subtle grass texture overlay */
     body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234a7c4a' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234a7c4a' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
     }
 
-    .wrapper {
-      position: relative;
-      z-index: 1;
-      max-width: 420px;
-      margin: 0 auto;
-      padding: 0 20px;
+    #app {
+      position: relative; z-index: 1;
+      max-width: 480px; margin: 0 auto;
+      padding-bottom: calc(var(--nav-h) + 20px);
     }
 
-    /* Header */
-    header {
-      text-align: center;
-      padding: 36px 0 28px;
+    .app-header { text-align: center; padding: 28px 20px 16px; }
+    .app-header .icon { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+    .app-header h1 {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem;
+      letter-spacing: 3px; color: var(--gold-light);
+      text-shadow: 0 2px 12px rgba(201,168,76,0.3); line-height: 1;
     }
+    .app-header p { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--cream-dim); margin-top: 4px; }
+    .header-divider { width: 50px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 12px auto 0; }
 
-    .header-icon {
-      font-size: 2.2rem;
-      margin-bottom: 6px;
-      display: block;
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; height: var(--nav-h);
+      background: rgba(10,22,10,0.96); backdrop-filter: blur(14px);
+      border-top: 1px solid rgba(201,168,76,0.15); display: flex; z-index: 100;
     }
-
-    header h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.2rem;
-      letter-spacing: 3px;
-      color: var(--gold-light);
-      text-shadow: 0 2px 12px rgba(201,168,76,0.3);
-      line-height: 1;
+    .nav-btn {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 3px;
+      background: transparent; border: none; color: var(--cream-dim);
+      cursor: pointer; transition: color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: env(safe-area-inset-bottom, 0);
     }
+    .nav-btn .nav-icon { font-size: 1.2rem; }
+    .nav-btn .nav-label { font-size: 0.58rem; letter-spacing: 1.5px; text-transform: uppercase; }
+    .nav-btn.active { color: var(--gold-light); }
 
-    header p {
-      font-size: 0.78rem;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.45);
-      margin-top: 6px;
+    .section { display: none; padding: 0 14px; animation: fadeIn 0.2s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+
+    .card {
+      background: linear-gradient(145deg, rgba(61,107,61,0.28), rgba(26,46,26,0.18));
+      border: 1px solid rgba(201,168,76,0.16); border-radius: 16px;
+      padding: 16px 18px; margin-bottom: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.2);
     }
+    .card-gold { background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03)); border-color: rgba(201,168,76,0.28); }
+    .section-label { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--cream-dim); margin: 16px 4px 8px; }
 
-    /* Divider */
-    .divider {
-      width: 60px;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 0 auto 28px;
-    }
+    /* LEADERBOARD */
+    .lb-row { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(245,240,232,0.05); }
+    .lb-row:last-child { border-bottom: none; }
+    .lb-medal { font-size: 1.3rem; width: 28px; text-align: center; flex-shrink: 0; }
+    .lb-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.45rem; letter-spacing: 1.5px; flex: 1; }
+    .lb-skins { text-align: center; }
+    .lb-skins-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--gold-light); line-height: 1; }
+    .lb-skins-lbl { font-size: 0.52rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cream-dim); margin-top: 1px; }
+    .lb-pts { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold-light); min-width: 44px; text-align: right; }
+    .pts-lbl { font-size: 0.52rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cream-dim); text-align: right; margin-top: -4px; }
 
-    /* Player Cards */
-    .players-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 24px;
-    }
+    .summary-strip { display: flex; justify-content: space-around; text-align: center; padding: 4px 0; }
+    .summary-val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold-light); line-height: 1; }
+    .summary-lbl { font-size: 0.56rem; letter-spacing: 2px; text-transform: uppercase; color: var(--cream-dim); margin-top: 2px; }
 
+    .points-key { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(245,240,232,0.06); }
+    .points-key-title { font-size: 0.56rem; letter-spacing: 2px; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 6px; }
+    .points-key-row { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--cream-dim); padding: 2px 0; }
+    .points-key-row span:last-child { color: var(--gold-light); }
+
+    /* SKINS */
+    .players-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 12px; }
     .player-card {
       background: linear-gradient(145deg, rgba(61,107,61,0.35), rgba(45,79,45,0.2));
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 18px;
-      padding: 22px 16px 18px;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+      border: 1px solid rgba(201,168,76,0.2); border-radius: 16px;
+      padding: 18px 12px 14px; text-align: center; cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      -webkit-tap-highlight-color: transparent; user-select: none;
     }
-
     .player-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: radial-gradient(circle at 50% 0%, rgba(201,168,76,0.12), transparent 65%);
-      opacity: 0;
-      transition: opacity 0.2s ease;
+      opacity: 0; transition: opacity 0.2s;
     }
-
-    .player-card:active {
-      transform: scale(0.94);
-    }
-
-    .player-card.tapped {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 2px rgba(201,168,76,0.3), 0 8px 30px rgba(0,0,0,0.3);
-    }
-
+    .player-card:active { transform: scale(0.94); }
+    .player-card.tapped { border-color: var(--gold); }
     .player-card.tapped::before { opacity: 1; }
+    .player-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.65rem; letter-spacing: 2px; color: var(--cream); line-height: 1; margin-bottom: 10px; }
+    .skin-count { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; line-height: 1; color: var(--gold-light); text-shadow: 0 2px 10px rgba(201,168,76,0.4); transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+    .skin-count.pop { transform: scale(1.3); }
+    .skin-label { font-size: 0.58rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,240,232,0.4); margin-top: 3px; }
+    .plus-flash { position: absolute; top: 9px; right: 11px; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--gold-light); opacity: 0; pointer-events: none; }
+    .plus-flash.animate { animation: plusFloat 0.6s ease forwards; }
+    @keyframes plusFloat { 0% { opacity:1; transform:translateY(0); } 100% { opacity:0; transform:translateY(-18px); } }
+    .total-panel { background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03)); border: 1px solid rgba(201,168,76,0.28); border-radius: 16px; padding: 16px 18px; text-align: center; margin-bottom: 12px; }
+    .total-label { font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(201,168,76,0.6); margin-bottom: 3px; }
+    .total-number { font-family: 'Bebas Neue', sans-serif; font-size: 3.2rem; color: var(--gold-light); line-height: 1; transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+    .total-number.pop { transform: scale(1.15); }
+    .total-sub { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,240,232,0.28); margin-top: 2px; }
 
-    .player-name {
+    .reset-btn { display: block; margin: 14px auto 0; background: transparent; border: 1px solid rgba(245,240,232,0.12); border-radius: 50px; color: rgba(245,240,232,0.28); font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; padding: 8px 20px; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+    .reset-btn:active { background: rgba(245,240,232,0.07); color: rgba(245,240,232,0.6); }
+
+    /* ROUNDS */
+    .round-tabs { display: flex; gap: 7px; overflow-x: auto; padding: 2px 2px 10px; scrollbar-width: none; }
+    .round-tabs::-webkit-scrollbar { display: none; }
+    .round-tab { flex-shrink: 0; background: transparent; border: 1px solid rgba(201,168,76,0.2); border-radius: 50px; color: var(--cream-dim); font-family: 'DM Sans', sans-serif; font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 14px; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; white-space: nowrap; }
+    .round-tab.active { background: var(--gold); border-color: var(--gold); color: #0a160a; font-weight: 600; }
+    .round-panel { display: none; }
+    .round-panel.active { display: block; }
+
+    .format-badge { display: inline-block; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 6px; font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold-light); padding: 4px 10px; margin-bottom: 12px; }
+
+    .course-input { background: rgba(0,0,0,0.2); border: 1px solid rgba(201,168,76,0.18); border-radius: 11px; color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; padding: 11px 14px; width: 100%; margin-bottom: 12px; outline: none; transition: border-color 0.2s; }
+    .course-input:focus { border-color: rgba(201,168,76,0.45); }
+    .course-input::placeholder { color: rgba(245,240,232,0.22); }
+
+    .sub-label { font-size: 0.58rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 8px; }
+
+    .team-assign-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 0; border-bottom: 1px solid rgba(245,240,232,0.05);
+    }
+    .team-assign-row:last-of-type { border-bottom: none; }
+    .team-assign-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.85rem;
-      letter-spacing: 2px;
-      color: var(--cream);
-      line-height: 1;
-      margin-bottom: 14px;
+      font-size: 1.1rem; letter-spacing: 1.5px; color: var(--cream);
     }
-
-    .skin-count {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.4rem;
-      line-height: 1;
-      color: var(--gold-light);
-      text-shadow: 0 2px 10px rgba(201,168,76,0.4);
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .skin-count.pop {
-      transform: scale(1.3);
-    }
-
-    .skin-label {
-      font-size: 0.65rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.4);
-      margin-top: 4px;
-    }
-
-    /* Plus indicator */
-    .plus-flash {
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      color: var(--gold-light);
-      opacity: 0;
-      transform: translateY(0px);
-      pointer-events: none;
-    }
-
-    .plus-flash.animate {
-      animation: plusFloat 0.6s ease forwards;
-    }
-
-    @keyframes plusFloat {
-      0%   { opacity: 1; transform: translateY(0px); }
-      100% { opacity: 0; transform: translateY(-22px); }
-    }
-
-    /* Total Panel */
-    .total-panel {
-      background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.05));
-      border: 1px solid rgba(201,168,76,0.35);
-      border-radius: 18px;
-      padding: 22px 24px;
-      text-align: center;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(201,168,76,0.1);
-    }
-
-    .total-label {
-      font-size: 0.7rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(201,168,76,0.65);
-      margin-bottom: 6px;
-    }
-
-    .total-number {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 4rem;
-      color: var(--gold-light);
-      line-height: 1;
-      text-shadow: 0 2px 20px rgba(201,168,76,0.35);
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .total-number.pop {
-      transform: scale(1.15);
-    }
-
-    .total-sub {
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.35);
-      margin-top: 4px;
-    }
-
-    /* Reset button */
-    .reset-btn {
-      display: block;
-      margin: 22px auto 0;
-      background: transparent;
+    .team-assign-btns { display: flex; gap: 8px; }
+    .team-ab-btn {
+      width: 44px; padding: 7px 0;
+      background: rgba(0,0,0,0.2);
       border: 1px solid rgba(245,240,232,0.15);
-      border-radius: 50px;
-      color: rgba(245,240,232,0.35);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      padding: 10px 24px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
+      border-radius: 8px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 1px;
+      color: var(--cream-dim); cursor: pointer;
+      transition: all 0.15s; -webkit-tap-highlight-color: transparent;
+    }
+    .team-ab-btn.sel-a { background: rgba(59,130,246,0.25); border-color: rgba(59,130,246,0.6); color: #93c5fd; }
+    .team-ab-btn.sel-b { background: rgba(239,68,68,0.2);  border-color: rgba(239,68,68,0.55);  color: #fca5a5; }
+
+    .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 6px; }
+    .team-col-label { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 6px; text-align: center; }
+    .team-player-btn { display: block; width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(245,240,232,0.1); border-radius: 10px; color: var(--cream-dim); font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 1.5px; padding: 9px 6px; margin-bottom: 5px; cursor: pointer; transition: all 0.18s; -webkit-tap-highlight-color: transparent; text-align: center; }
+    .team-player-btn.in-a { background: rgba(59,130,246,0.18); border-color: rgba(59,130,246,0.4); color: #93c5fd; }
+    .team-player-btn.in-b { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.35); color: #fca5a5; }
+
+    .score-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+    .score-row-label { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 1px; flex: 1; }
+    .score-row-label.team-a { color: #93c5fd; }
+    .score-row-label.team-b { color: #fca5a5; }
+
+    .score-input { background: rgba(0,0,0,0.25); border: 1px solid rgba(201,168,76,0.18); border-radius: 9px; color: var(--gold-light); font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; text-align: center; width: 70px; padding: 8px 4px; outline: none; -webkit-appearance: none; transition: border-color 0.2s; }
+    .score-input:focus { border-color: rgba(201,168,76,0.5); }
+    .score-input::placeholder { color: rgba(201,168,76,0.22); font-size: 0.9rem; }
+
+    .winner-btns { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .winner-btn {
+      width: 100%; padding: 13px 10px;
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(245,240,232,0.12);
+      border-radius: 11px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1.5px;
+      color: var(--cream-dim); cursor: pointer;
+      transition: all 0.15s; -webkit-tap-highlight-color: transparent;
+    }
+    .winner-btn.sel-a { background: rgba(59,130,246,0.22); border-color: rgba(59,130,246,0.55); color: #93c5fd; }
+    .winner-btn.sel-b { background: rgba(239,68,68,0.18);  border-color: rgba(239,68,68,0.5);  color: #fca5a5; }
+    .winner-btn.draw-btn { font-size: 0.85rem; letter-spacing: 2px; }
+    .winner-btn.sel-draw { background: rgba(201,168,76,0.15); border-color: rgba(201,168,76,0.45); color: var(--gold-light); }
+
+    .result-box { margin-top: 6px; padding: 11px 14px; background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.18); border-radius: 10px; font-size: 0.78rem; color: var(--cream-dim); text-align: center; line-height: 1.6; }
+    .result-box strong { color: var(--gold-light); }
+
+    .stableford-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(245,240,232,0.04); }
+    .stableford-row:last-child { border-bottom: none; }
+    .stableford-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 1px; color: var(--cream-dim); }
+
+    .cttp-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cttp-pick-btn {
+      padding: 11px 8px; background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(245,240,232,0.12); border-radius: 11px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1.5px;
+      color: var(--cream-dim); cursor: pointer;
+      transition: all 0.15s; -webkit-tap-highlight-color: transparent;
+    }
+    .cttp-pick-btn.sel-cttp { background: rgba(201,168,76,0.18); border-color: rgba(201,168,76,0.55); color: var(--gold-light); }
+
+    .cttp-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(245,240,232,0.05); }
+    .cttp-row:last-of-type { border-bottom: none; }
+    .cttp-round { font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cream-dim); }
+    .cttp-winner { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; color: var(--gold-light); }
+    .cttp-totals { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(245,240,232,0.06); }
+    .cttp-total-chip { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 50px; padding: 4px 12px; font-size: 0.75rem; color: var(--cream-dim); }
+    .cttp-total-chip strong { color: var(--gold-light); margin-left: 4px; }
+
+    /* SCORES */
+    .scores-player-card {
+      background: linear-gradient(145deg, rgba(61,107,61,0.28), rgba(26,46,26,0.18));
+      border: 1px solid rgba(201,168,76,0.16); border-radius: 16px;
+      margin-bottom: 12px; overflow: hidden;
+    }
+    .scores-player-header {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
+      letter-spacing: 2px; color: var(--gold-light);
+      padding: 12px 16px 10px;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      background: rgba(201,168,76,0.06);
+    }
+    .scores-round-row {
+      display: flex; align-items: center;
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(245,240,232,0.04);
+      gap: 8px;
+    }
+    .scores-totals-row {
+      display: flex; align-items: center;
+      padding: 8px 12px;
+      background: rgba(201,168,76,0.06);
+      border-top: 1px solid rgba(201,168,76,0.15);
+      gap: 8px;
+    }
+    .scores-round-label {
+      font-size: 0.62rem; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--cream-dim);
+      flex: 1;
+    }
+    .scores-inputs { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+    .scores-input-group { display: flex; align-items: center; gap: 5px; }
+    .scores-input-label {
+      font-size: 0.55rem; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--cream-dim); white-space: nowrap;
+    }
+    .scores-cell-input {
+      background: rgba(0,0,0,0.25); border: 1px solid rgba(201,168,76,0.18);
+      border-radius: 8px; color: var(--gold-light);
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
+      text-align: center; width: 50px; padding: 5px 2px;
+      outline: none; -webkit-appearance: none; transition: border-color 0.2s;
+    }
+    .scores-cell-input:focus { border-color: rgba(201,168,76,0.5); }
+    .scores-cell-input::placeholder { color: rgba(201,168,76,0.2); }
+    .scores-total-val {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem;
+      color: var(--gold-light); width: 50px; text-align: center;
     }
 
-    .reset-btn:active {
-      background: rgba(245,240,232,0.07);
-      color: rgba(245,240,232,0.6);
-    }
+    .pts-preview { margin-top: 10px; padding: 11px 14px; background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.18); border-radius: 10px; }
+    .pts-preview-title { font-size: 0.56rem; letter-spacing: 2px; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 7px; }
+    .pts-preview-row { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; border-bottom: 1px solid rgba(245,240,232,0.04); }
+    .pts-preview-row:last-child { border-bottom: none; }
+    .pts-preview-name { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 1px; }
+    .pts-preview-val { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--gold-light); }
   </style>
 </head>
 <body>
-<div class="wrapper">
-  <header>
-    <span class="header-icon">⛳</span>
-    <h1>Skins Tracker</h1>
-    <p>Spain Golf Trip 2027</p>
+<div id="app">
+  <header class="app-header">
+    <span class="icon">⛳</span>
+    <h1>Golf Trip</h1>
+    <p>Spain 2027</p>
+    <div class="header-divider"></div>
   </header>
-  <div class="divider"></div>
 
-  <div class="players-grid" id="playersGrid"></div>
-
-  <div class="total-panel">
-    <div class="total-label">Total Skins Played</div>
-    <div class="total-number" id="grandTotal">0</div>
-    <div class="total-sub">Across all players</div>
-  </div>
-
-  <div id="resetArea">
-    <button class="reset-btn" onclick="showConfirm()">Reset All Skins</button>
-  </div>
-  <div id="confirmArea" style="display:none; text-align:center; margin-top:22px;">
-    <p style="font-size:0.75rem; letter-spacing:1.5px; text-transform:uppercase; color:rgba(245,240,232,0.45); margin-bottom:14px;">Are you sure?</p>
-    <div style="display:flex; gap:12px; justify-content:center;">
-      <button class="reset-btn" onclick="confirmReset()" style="border-color:rgba(201,168,76,0.4); color:rgba(201,168,76,0.7);">Yes, Reset</button>
-      <button class="reset-btn" onclick="cancelReset()">Cancel</button>
+  <!-- LEADERBOARD -->
+  <div class="section active" id="sec-leaderboard">
+    <div class="section-label">Overall Standings</div>
+    <div class="card card-gold" id="lbCard"></div>
+    <div class="section-label">Closest to the Pin</div>
+    <div class="card" id="lbCttp"></div>
+    <div id="lbResetArea">
+      <button class="reset-btn" onclick="showLbConfirm()">Reset Everything</button>
+    </div>
+    <div id="lbConfirmArea" style="display:none;text-align:center;margin-top:14px;">
+      <p style="font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--cream-dim);margin-bottom:10px;">Reset all scores, skins & rounds?</p>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button class="reset-btn" onclick="confirmFullReset()" style="border-color:rgba(201,168,76,0.4);color:rgba(201,168,76,0.7);">Yes, Reset All</button>
+        <button class="reset-btn" onclick="cancelLbReset()">Cancel</button>
+      </div>
     </div>
   </div>
+
+  <!-- SKINS -->
+  <div class="section" id="sec-skins">
+    <div class="section-label">Tap to Award a Skin</div>
+    <div class="players-grid" id="skinsGrid"></div>
+    <div class="total-panel">
+      <div class="total-label">Total Skins Played</div>
+      <div class="total-number" id="skinsTotal">0</div>
+      <div class="total-sub">Across all players</div>
+    </div>
+    <div id="skinsResetArea">
+      <button class="reset-btn" onclick="showSkinsConfirm()">Reset All Skins</button>
+    </div>
+    <div id="skinsConfirmArea" style="display:none;text-align:center;margin-top:14px;">
+      <p style="font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--cream-dim);margin-bottom:10px;">Are you sure?</p>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button class="reset-btn" onclick="confirmSkinsReset()" style="border-color:rgba(201,168,76,0.4);color:rgba(201,168,76,0.7);">Yes, Reset</button>
+        <button class="reset-btn" onclick="cancelSkinsReset()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROUNDS -->
+  <div class="section" id="sec-rounds">
+    <div class="section-label">Select Round</div>
+    <div class="round-tabs" id="roundTabs"></div>
+    <div id="roundPanels"></div>
+  </div>
+  <!-- SCORES -->
+  <div class="section" id="sec-scores">
+    <div class="section-label">Player Scores by Round</div>
+    <div id="scoresGrid"></div>
+  </div>
+
 </div>
 
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="switchTab('leaderboard')" id="nav-leaderboard">
+    <span class="nav-icon">🏆</span><span class="nav-label">Leaderboard</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('rounds')" id="nav-rounds">
+    <span class="nav-icon">📋</span><span class="nav-label">Rounds</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('skins')" id="nav-skins">
+    <span class="nav-icon">⛳</span><span class="nav-label">Skins</span>
+  </button>
+  <button class="nav-btn" onclick="switchTab('scores')" id="nav-scores">
+    <span class="nav-icon">🏌️</span><span class="nav-label">Scores</span>
+  </button>
+</nav>
+
 <script>
-  const DEFAULT_PLAYERS = ['Sam', 'Rob', 'Luke', 'Will'];
+const PLAYERS = ['Sam', 'Rob', 'Luke', 'Will'];
+const ROUNDS_CONFIG = [
+  { label: 'Round 1', format: 'matchplay',  title: '2v2 Match Play' },
+  { label: 'Round 2', format: 'matchplay',  title: '2v2 Match Play' },
+  { label: 'Round 3', format: 'matchplay',  title: '2v2 Match Play' },
+  { label: 'Round 4', format: 'scramble',   title: '2v2 Scramble' },
+  { label: 'Round 5', format: 'stableford', title: 'Individual Stableford' },
+];
 
-  function loadPlayers() {
-    const saved = localStorage.getItem('golf_skins');
-    if (saved) {
-      try { return JSON.parse(saved); } catch(e) {}
+function defaultState() {
+  return {
+    skins: PLAYERS.map(n => ({ name: n, skins: 0 })),
+    rounds: ROUNDS_CONFIG.map(rc => {
+      if (rc.format === 'stableford') {
+        return { course: '', scores: Object.fromEntries(PLAYERS.map(p => [p, ''])), closestToPin: '' };
+      }
+      return { course: '', teamA: [], teamB: [], scoreA: '', scoreB: '', winner: '', closestToPin: '' };
+    }),
+    playerScores: Object.fromEntries(PLAYERS.map(p => [p,
+      ROUNDS_CONFIG.map(() => ({ gross: '', stableford: '' }))
+    ]))
+  };
+}
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('golf_trip_2027_v2');
+    if (s) {
+      const parsed = JSON.parse(s);
+      if (!parsed.playerScores) {
+        parsed.playerScores = Object.fromEntries(PLAYERS.map(p => [p,
+          ROUNDS_CONFIG.map(() => ({ gross: '', stableford: '' }))
+        ]));
+      }
+      return parsed;
     }
-    return DEFAULT_PLAYERS.map(name => ({ name, skins: 0 }));
+  } catch(e) {}
+  return defaultState();
+}
+function saveState() { localStorage.setItem('golf_trip_2027_v2', JSON.stringify(state)); }
+
+let state = loadState();
+let activeRound = 0;
+
+// ── NAVIGATION ──
+function switchTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + tab).classList.add('active');
+  document.getElementById('nav-' + tab).classList.add('active');
+  if (tab === 'leaderboard') renderLeaderboard();
+  if (tab === 'scores') renderScores();
+}
+
+// ── POINTS CALCULATION ──
+function calcPoints() {
+  const pts = Object.fromEntries(PLAYERS.map(p => [p, 0]));
+  ROUNDS_CONFIG.forEach((rc, i) => {
+    const rd = state.rounds[i];
+    if (rc.format === 'stableford') {
+      const scored = PLAYERS
+        .map(p => ({ p, s: parseInt(rd.scores[p]) }))
+        .filter(x => !isNaN(x.s) && x.s > 0)
+        .sort((a, b) => b.s - a.s);
+      [4, 3, 2, 1].forEach((award, rank) => { if (scored[rank]) pts[scored[rank].p] += award; });
+    } else {
+      const { teamA, teamB, scoreA, scoreB, winner } = rd;
+      if (!teamA.length || !teamB.length) return;
+
+      if (rc.format === 'matchplay') {
+        if (!winner) return;
+        if (winner === 'draw') { [...teamA, ...teamB].forEach(p => pts[p] += 1); }
+        else if (winner === 'A') { teamA.forEach(p => pts[p] += 2); teamB.forEach(p => pts[p] += 1); }
+        else { teamB.forEach(p => pts[p] += 2); teamA.forEach(p => pts[p] += 1); }
+      } else {
+        // scramble: lower gross score wins
+        if (scoreA === '' || scoreB === '') return;
+        const sA = parseFloat(scoreA), sB = parseFloat(scoreB);
+        if (isNaN(sA) || isNaN(sB)) return;
+        const aWins = sA < sB, bWins = sB < sA;
+        if (aWins) { teamA.forEach(p => pts[p] += 2); teamB.forEach(p => pts[p] += 1); }
+        else if (bWins) { teamB.forEach(p => pts[p] += 2); teamA.forEach(p => pts[p] += 1); }
+        else { [...teamA, ...teamB].forEach(p => pts[p] += 1); }
+      }
+    }
+  });
+  return pts;
+}
+
+// ── LEADERBOARD ──
+function renderLeaderboard() {
+  const pts = calcPoints();
+  const skinMap = Object.fromEntries(state.skins.map(p => [p.name, p.skins]));
+  const ranked = PLAYERS.map(p => ({ p, pts: pts[p], skins: skinMap[p] || 0 }))
+    .sort((a, b) => b.pts - a.pts || b.skins - a.skins);
+  const medals = ['🥇','🥈','🥉','4️⃣'];
+
+  document.getElementById('lbCard').innerHTML =
+    ranked.map((r, i) => `
+      <div class="lb-row">
+        <div class="lb-medal">${medals[i]}</div>
+        <div class="lb-name">${r.p}</div>
+        <div class="lb-skins">
+          <div class="lb-skins-val">${r.skins}</div>
+          <div class="lb-skins-lbl">Skins</div>
+        </div>
+        <div>
+          <div class="lb-pts">${r.pts}</div>
+          <div class="pts-lbl">pts</div>
+        </div>
+      </div>`).join('');
+
+  // Closest to the Pin summary
+  const cttpCounts = Object.fromEntries(PLAYERS.map(p => [p, 0]));
+  state.rounds.forEach(rd => { if (rd.closestToPin) cttpCounts[rd.closestToPin]++; });
+  const cttpRows = ROUNDS_CONFIG.map((rc, i) => {
+    const winner = state.rounds[i].closestToPin;
+    return `<div class="cttp-row">
+      <span class="cttp-round">${rc.label}</span>
+      <span class="cttp-winner">${winner || '—'}</span>
+    </div>`;
+  }).join('');
+  const cttpTotals = PLAYERS.map(p => ({ p, n: cttpCounts[p] })).filter(x => x.n > 0)
+    .sort((a, b) => b.n - a.n);
+  const cttpSummary = cttpTotals.length
+    ? `<div class="cttp-totals">${cttpTotals.map(x => `<span class="cttp-total-chip">${x.p} <strong>${x.n}</strong></span>`).join('')}</div>`
+    : '';
+  document.getElementById('lbCttp').innerHTML = cttpRows + cttpSummary;
+}
+
+// ── SKINS ──
+function renderSkins() {
+  const grid = document.getElementById('skinsGrid');
+  grid.innerHTML = '';
+  state.skins.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'player-card'; card.id = `sc-${i}`;
+    card.innerHTML = `<span class="plus-flash" id="sp-${i}">+1</span>
+      <div class="player-name">${p.name}</div>
+      <div class="skin-count" id="sk-${i}">${p.skins}</div>
+      <div class="skin-label">Skins</div>`;
+    card.addEventListener('click', () => addSkin(i));
+    grid.appendChild(card);
+  });
+  updateSkinsTotal();
+}
+
+function addSkin(i) {
+  state.skins[i].skins++; saveState();
+  const c = document.getElementById(`sk-${i}`), p = document.getElementById(`sp-${i}`), k = document.getElementById(`sc-${i}`);
+  c.textContent = state.skins[i].skins;
+  c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); setTimeout(() => c.classList.remove('pop'), 300);
+  k.classList.add('tapped'); setTimeout(() => k.classList.remove('tapped'), 350);
+  p.classList.remove('animate'); void p.offsetWidth; p.classList.add('animate');
+  updateSkinsTotal();
+}
+
+function updateSkinsTotal() {
+  const total = state.skins.reduce((s, p) => s + p.skins, 0);
+  const el = document.getElementById('skinsTotal');
+  el.textContent = total;
+  el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); setTimeout(() => el.classList.remove('pop'), 300);
+}
+
+function showSkinsConfirm() { document.getElementById('skinsResetArea').style.display='none'; document.getElementById('skinsConfirmArea').style.display='block'; }
+function cancelSkinsReset() { document.getElementById('skinsConfirmArea').style.display='none'; document.getElementById('skinsResetArea').style.display='block'; }
+function confirmSkinsReset() { state.skins.forEach(p => p.skins=0); saveState(); document.getElementById('skinsConfirmArea').style.display='none'; document.getElementById('skinsResetArea').style.display='block'; renderSkins(); }
+
+// ── ROUNDS ──
+function renderRoundTabs() {
+  document.getElementById('roundTabs').innerHTML = ROUNDS_CONFIG.map((rc, i) =>
+    `<button class="round-tab ${i===activeRound?'active':''}" onclick="switchRound(${i})">${rc.label}</button>`).join('');
+}
+
+function switchRound(i) { activeRound = i; renderRoundTabs(); renderRoundPanels(); }
+
+function renderRoundPanels() {
+  document.getElementById('roundPanels').innerHTML = ROUNDS_CONFIG.map((rc, i) => {
+    const rd = state.rounds[i];
+    const active = i === activeRound ? 'active' : '';
+    if (rc.format === 'stableford') return renderStablefordPanel(i, rc, rd, active);
+    return renderTeamPanel(i, rc, rd, active);
+  }).join('');
+}
+
+function renderStablefordPanel(i, rc, rd, active) {
+  const scored = PLAYERS.map(p => ({ p, s: parseInt(rd.scores[p]) }))
+    .filter(x => !isNaN(x.s) && x.s > 0).sort((a, b) => b.s - a.s);
+  const pointMap = [4,3,2,1];
+  const preview = scored.length ? `
+    <div class="pts-preview">
+      <div class="pts-preview-title">Points Awarded</div>
+      ${scored.map((x, r) => `<div class="pts-preview-row"><span class="pts-preview-name">${x.p}</span><span class="pts-preview-val">${pointMap[r]||1} pts</span></div>`).join('')}
+    </div>` : '';
+
+  return `<div class="round-panel ${active}" id="rp-${i}">
+    <span class="format-badge">${rc.title}</span>
+    <input class="course-input" type="text" placeholder="Course name (optional)" value="${rd.course}" oninput="saveCourse(${i},this.value)" />
+    <div class="card">
+      ${PLAYERS.map(p => `
+        <div class="stableford-row">
+          <span class="stableford-name">${p}</span>
+          <input class="score-input" type="number" inputmode="numeric" placeholder="Pts"
+            value="${rd.scores[p]}" oninput="saveStableford(${i},'${p}',this.value)" />
+        </div>`).join('')}
+      ${preview}
+    </div>
+    ${renderCttpPicker(i, rd)}
+  </div>`;
+}
+
+function renderTeamPanel(i, rc, rd, active) {
+  const tA = rd.teamA, tB = rd.teamB;
+  const hasTeams = tA.length === 2 && tB.length === 2;
+
+  const scoresHtml = hasTeams ? `
+    <div class="card">
+      ${rc.format === 'matchplay' ? `
+        <div class="sub-label">Select Winner</div>
+        <div class="winner-btns">
+          <button class="winner-btn ${rd.winner==='A' ? 'sel-a' : ''}" onclick="saveWinner(${i},'A')">${tA.join(' & ')}</button>
+          <button class="winner-btn draw-btn ${rd.winner==='draw' ? 'sel-draw' : ''}" onclick="saveWinner(${i},'draw')">Draw</button>
+          <button class="winner-btn ${rd.winner==='B' ? 'sel-b' : ''}" onclick="saveWinner(${i},'B')">${tB.join(' & ')}</button>
+        </div>
+        ${rd.winner ? renderResultBoxMatchplay(i, rd) : ''}
+      ` : `
+        <div class="sub-label">Gross Score</div>
+        <div class="score-row">
+          <span class="score-row-label team-a">${tA.join(' & ')}</span>
+          <input class="score-input" type="number" inputmode="numeric" placeholder="—"
+            value="${rd.scoreA}" oninput="saveTeamScore(${i},'A',this.value)" />
+        </div>
+        <div class="score-row">
+          <span class="score-row-label team-b">${tB.join(' & ')}</span>
+          <input class="score-input" type="number" inputmode="numeric" placeholder="—"
+            value="${rd.scoreB}" oninput="saveTeamScore(${i},'B',this.value)" />
+        </div>
+        ${renderResultBox(i, rc, rd)}
+      `}
+    </div>` : '';
+
+  // Per-player row: name | [A] [B]
+  const playerRows = PLAYERS.map(p => {
+    const inA = tA.includes(p), inB = tB.includes(p);
+    return `
+      <div class="team-assign-row">
+        <span class="team-assign-name">${p}</span>
+        <div class="team-assign-btns">
+          <button class="team-ab-btn ${inA ? 'sel-a' : ''}" onclick="assignTeam(${i},'${p}','A')">A</button>
+          <button class="team-ab-btn ${inB ? 'sel-b' : ''}" onclick="assignTeam(${i},'${p}','B')">B</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  return `<div class="round-panel ${active}" id="rp-${i}">
+    <span class="format-badge">${rc.title}</span>
+    <input class="course-input" type="text" placeholder="Course name (optional)" value="${rd.course}" oninput="saveCourse(${i},this.value)" />
+    <div class="card">
+      <div class="sub-label">Assign Teams</div>
+      ${playerRows}
+      ${!hasTeams ? '<div style="font-size:0.62rem;color:var(--cream-dim);text-align:center;margin-top:8px;">Assign all 4 players to unlock scores</div>' : ''}
+    </div>
+    ${scoresHtml}
+    ${renderCttpPicker(i, rd)}
+  </div>`;
+}
+
+function renderCttpPicker(ri, rd) {
+  const selected = rd.closestToPin || '';
+  return `<div class="card">
+    <div class="sub-label">📍 Closest to the Pin</div>
+    <div class="cttp-btns">
+      ${PLAYERS.map(p => `
+        <button class="cttp-pick-btn ${selected === p ? 'sel-cttp' : ''}" onclick="saveCttp(${ri},'${p}')">${p}</button>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
+function saveCttp(ri, player) {
+  state.rounds[ri].closestToPin = state.rounds[ri].closestToPin === player ? '' : player;
+  saveState(); renderRoundPanels();
+}
+
+function renderResultBoxMatchplay(i, rd) {
+  const tA = rd.teamA.join(' & '), tB = rd.teamB.join(' & ');
+  if (rd.winner === 'draw') return `<div class="result-box">🤝 Draw — <strong>1 point each</strong></div>`;
+  const winner = rd.winner === 'A' ? tA : tB;
+  const loser  = rd.winner === 'A' ? tB : tA;
+  return `<div class="result-box">🏆 <strong>${winner}</strong> win — <strong>2 pts each</strong><br><span style="color:var(--cream-dim)">${loser} — 1 pt each</span></div>`;
+}
+
+function renderResultBox(i, rc, rd) {
+  if (rd.scoreA === '' || rd.scoreB === '') return '';
+  const sA = parseFloat(rd.scoreA), sB = parseFloat(rd.scoreB);
+  if (isNaN(sA) || isNaN(sB)) return '';
+  const aWins = rc.format === 'matchplay' ? sA > sB : sA < sB;
+  const bWins = rc.format === 'matchplay' ? sB > sA : sB < sA;
+  const tA = rd.teamA.join(' & '), tB = rd.teamB.join(' & ');
+  if (!aWins && !bWins) return `<div class="result-box">🤝 Draw — <strong>1 point each</strong></div>`;
+  const winner = aWins ? tA : tB, loser = aWins ? tB : tA;
+  return `<div class="result-box">🏆 <strong>${winner}</strong> win — <strong>2 pts each</strong><br><span style="color:var(--cream-dim)">${loser} — 1 pt each</span></div>`;
+}
+
+// Save helpers
+function saveCourse(ri, val) { state.rounds[ri].course = val; saveState(); }
+function saveStableford(ri, player, val) { state.rounds[ri].scores[player] = val; saveState(); renderRoundPanels(); }
+function saveWinner(ri, winner) {
+  // Toggle off if tapping same button again
+  state.rounds[ri].winner = state.rounds[ri].winner === winner ? '' : winner;
+  saveState(); renderRoundPanels();
+}
+function saveTeamScore(ri, team, val) {
+  if (team==='A') state.rounds[ri].scoreA = val; else state.rounds[ri].scoreB = val;
+  saveState(); renderRoundPanels();
+}
+function assignTeam(ri, player, team) {
+  const rd = state.rounds[ri];
+  const arr   = team === 'A' ? rd.teamA : rd.teamB;
+  const other = team === 'A' ? rd.teamB : rd.teamA;
+
+  // If already on this team, deselect
+  const idx = arr.indexOf(player);
+  if (idx > -1) {
+    arr.splice(idx, 1);
+    saveState(); renderRoundPanels(); return;
   }
 
-  function savePlayers() {
-    localStorage.setItem('golf_skins', JSON.stringify(players));
-  }
+  // Remove from the other team
+  const otherIdx = other.indexOf(player);
+  if (otherIdx > -1) other.splice(otherIdx, 1);
 
-  const players = loadPlayers();
-  const grid = document.getElementById('playersGrid');
-  const grandTotalEl = document.getElementById('grandTotal');
+  // Add to this team if not full
+  if (arr.length < 2) arr.push(player);
 
-  function renderCards() {
-    grid.innerHTML = '';
-    players.forEach((p, i) => {
-      const card = document.createElement('div');
-      card.className = 'player-card';
-      card.id = `card-${i}`;
-      card.innerHTML = `
-        <span class="plus-flash" id="plus-${i}">+1</span>
-        <div class="player-name">${p.name}</div>
-        <div class="skin-count" id="count-${i}">${p.skins}</div>
-        <div class="skin-label">Skins</div>
-      `;
-      card.addEventListener('click', () => addSkin(i));
-      grid.appendChild(card);
-    });
-    updateTotal();
-  }
+  saveState(); renderRoundPanels();
+}
 
-  function addSkin(i) {
-    players[i].skins++;
+function showLbConfirm() {
+  document.getElementById('lbResetArea').style.display = 'none';
+  document.getElementById('lbConfirmArea').style.display = 'block';
+}
+function cancelLbReset() {
+  document.getElementById('lbConfirmArea').style.display = 'none';
+  document.getElementById('lbResetArea').style.display = 'block';
+}
+function confirmFullReset() {
+  state = defaultState();
+  saveState();
+  document.getElementById('lbConfirmArea').style.display = 'none';
+  document.getElementById('lbResetArea').style.display = 'block';
+  renderLeaderboard();
+  renderSkins();
+  renderRoundTabs();
+  renderRoundPanels();
+}
 
-    const countEl = document.getElementById(`count-${i}`);
-    const plusEl  = document.getElementById(`plus-${i}`);
-    const cardEl  = document.getElementById(`card-${i}`);
+// ── SCORES ──
+function renderScores() {
+  const container = document.getElementById('scoresGrid');
+  if (!container) return;
 
-    countEl.textContent = players[i].skins;
+  container.innerHTML = PLAYERS.map(p => {
+    const scores = state.playerScores[p];
+    const rows = ROUNDS_CONFIG.map((rc, i) => {
+      const s = scores[i];
+      return `
+        <div class="scores-round-row">
+          <div class="scores-round-label">${rc.label}</div>
+          <div class="scores-inputs">
+            <div class="scores-input-group">
+              <label class="scores-input-label">Gross</label>
+              <input class="scores-cell-input" type="number" inputmode="numeric" placeholder="—"
+                value="${s.gross}" oninput="savePlayerScore('${p}',${i},'gross',this.value)" />
+            </div>
+            <div class="scores-input-group">
+              <label class="scores-input-label">Stbl</label>
+              <input class="scores-cell-input" type="number" inputmode="numeric" placeholder="—"
+                value="${s.stableford}" oninput="savePlayerScore('${p}',${i},'stableford',this.value)" />
+            </div>
+          </div>
+        </div>`;
+    }).join('');
 
-    // Pop animation on count
-    countEl.classList.remove('pop');
-    void countEl.offsetWidth;
-    countEl.classList.add('pop');
-    setTimeout(() => countEl.classList.remove('pop'), 300);
+    // Totals
+    const grossVals  = scores.map(s => parseInt(s.gross)).filter(v => !isNaN(v));
+    const stblVals   = scores.map(s => parseInt(s.stableford)).filter(v => !isNaN(v));
+    const grossTotal = grossVals.length ? grossVals.reduce((a,b) => a+b, 0) : '—';
+    const stblTotal  = stblVals.length  ? stblVals.reduce((a,b)  => a+b, 0) : '—';
 
-    // Tapped highlight
-    cardEl.classList.add('tapped');
-    setTimeout(() => cardEl.classList.remove('tapped'), 350);
+    return `
+      <div class="scores-player-card">
+        <div class="scores-player-header">${p}</div>
+        ${rows}
+        <div class="scores-totals-row">
+          <div class="scores-round-label" style="color:var(--gold-light);">Total</div>
+          <div class="scores-inputs">
+            <div class="scores-input-group">
+              <label class="scores-input-label">Gross</label>
+              <div class="scores-total-val">${grossTotal}</div>
+            </div>
+            <div class="scores-input-group">
+              <label class="scores-input-label">Stbl</label>
+              <div class="scores-total-val">${stblTotal}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
 
-    // +1 float
-    plusEl.classList.remove('animate');
-    void plusEl.offsetWidth;
-    plusEl.classList.add('animate');
+function savePlayerScore(player, roundIdx, type, val) {
+  state.playerScores[player][roundIdx][type] = val;
+  saveState();
+  // Re-render to update totals
+  renderScores();
+}
 
-    updateTotal();
-    savePlayers();
-  }
-
-  function updateTotal() {
-    const total = players.reduce((sum, p) => sum + p.skins, 0);
-    grandTotalEl.textContent = total;
-
-    grandTotalEl.classList.remove('pop');
-    void grandTotalEl.offsetWidth;
-    grandTotalEl.classList.add('pop');
-    setTimeout(() => grandTotalEl.classList.remove('pop'), 300);
-  }
-
-  function showConfirm() {
-    document.getElementById('resetArea').style.display = 'none';
-    document.getElementById('confirmArea').style.display = 'block';
-  }
-
-  function cancelReset() {
-    document.getElementById('confirmArea').style.display = 'none';
-    document.getElementById('resetArea').style.display = 'block';
-  }
-
-  function confirmReset() {
-    players.forEach(p => p.skins = 0);
-    savePlayers();
-    document.getElementById('confirmArea').style.display = 'none';
-    document.getElementById('resetArea').style.display = 'block';
-    renderCards();
-  }
-
-  renderCards();
+// ── INIT ──
+renderLeaderboard();
+renderSkins();
+renderRoundTabs();
+renderRoundPanels();
+renderScores();
 </script>
 </body>
 </html>
